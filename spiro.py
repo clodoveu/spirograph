@@ -164,6 +164,16 @@ class motorBThread(threading.Thread):
 
 def main():
     # test section while main() is not written
+    # GPIO SETUP
+    GPIO.setup(coilA1pin, GPIO.OUT)
+    GPIO.setup(coilA2pin, GPIO.OUT)
+    GPIO.setup(coilB1pin, GPIO.OUT)
+    GPIO.setup(coilB2pin, GPIO.OUT)
+    GPIO.setup(coilC1pin, GPIO.OUT)
+    GPIO.setup(coilC2pin, GPIO.OUT)
+    GPIO.setup(coilD1pin, GPIO.OUT)
+    GPIO.setup(coilD2pin, GPIO.OUT)
+
     try:
             tA = motorAThread()
             tA.start()
