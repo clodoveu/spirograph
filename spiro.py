@@ -26,7 +26,7 @@ coilC2pin = 22
 coilD1pin = 5
 coilD2pin = 6
 
-motorDelay = 0.0025 # seconds between stepper advancements
+motorDelay = 0.0025  # seconds between stepper advancements
 
 # GPIO SETUP
 GPIO.setup(coilA1pin, GPIO.OUT)
@@ -62,17 +62,16 @@ def cleanup():
     GPIO.output(coilC2pin, False)
     GPIO.output(coilD1pin, False)
     GPIO.output(coilD2pin, False)
-    GPIO.output(laserPin, False)
 
 
-def setStepX(s):
+def setStepA(s):
     GPIO.output(coilA1pin, seq[s][0])
     GPIO.output(coilA2pin, seq[s][1])
     GPIO.output(coilB1pin, seq[s][2])
     GPIO.output(coilB2pin, seq[s][3])
 
 
-def setStepY(s):
+def setStepB(s):
     GPIO.output(coilC1pin, seq[s][0])
     GPIO.output(coilC2pin, seq[s][1])
     GPIO.output(coilD1pin, seq[s][2])
@@ -141,13 +140,13 @@ def main():
         steps = input("How many steps forward in X? ")
         if int(steps) == 0:
             break
-        forwardX(int(steps))
+        rotateAfw(int(steps))
         steps = input("How many steps backwards in X? ")
-        backwardX(int(steps))
+        rotateAbw(int(steps))
         steps = input("How many steps forward in Y? ")
-        forwardY(int(steps))
+        rotateBfw(int(steps))
         steps = input("How many steps backwards in Y? ")
-        backwardY(int(steps))
+        rotateBbw(int(steps))
 
     cleanup()
     GPIO.cleanup()
