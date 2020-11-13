@@ -165,6 +165,8 @@ class motorBThread(threading.Thread):
 def main():
     # test section while main() is not written
     # GPIO SETUP
+    GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BCM)
     GPIO.setup(coilA1pin, GPIO.OUT)
     GPIO.setup(coilA2pin, GPIO.OUT)
     GPIO.setup(coilB1pin, GPIO.OUT)
