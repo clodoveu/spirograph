@@ -142,6 +142,7 @@ class motorAThread(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
+        GPIO.setmode(GPIO.BCM)
         print("Initializing motor A")
 
     def run(self):
@@ -155,6 +156,7 @@ class motorBThread(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
+        GPIO.setmode(GPIO.BCM)
         print("Initializing motor B")
 
     def run(self):
