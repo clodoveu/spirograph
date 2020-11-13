@@ -186,7 +186,6 @@ def main():
             print("Threads running...")
     except (KeyboardInterrupt, SystemExit):
             cleanup()
-            GPIO.cleanup()
             sys.exit()
 
 
