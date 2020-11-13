@@ -8,8 +8,11 @@
 #
 #
 
-import RPi.GPIO as GPIO
+import sys
+import threading
 import time
+
+import RPi.GPIO as GPIO
 
 # SETUP
 GPIO.setwarnings(False)
@@ -133,20 +136,45 @@ def rotateBbw(steps):
     for i in range(0, steps):
         backwardB()
 
+class motorAThread(threading.Thread):
+    """ Sets motor A rotating
+    """
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        print("Initializing motor A")
+
+    def run(self):
+        while True:
+            rotateAfw(10)
+
+
+class motorBThread(threading.Thread):
+    """ Sets motor B rotating
+    """
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        print("Initializing motor B")
+
+    def run(self):
+        while True:
+            rotateBfw(20)
+
 
 def main():
     # test section while main() is not written
-    while True:
-        steps = input("How many steps forward in X? ")
-        if int(steps) == 0:
-            break
-        rotateAfw(int(steps))
-        steps = input("How many steps backwards in X? ")
-        rotateAbw(int(steps))
-        steps = input("How many steps forward in Y? ")
-        rotateBfw(int(steps))
-        steps = input("How many steps backwards in Y? ")
-        rotateBbw(int(steps))
+    try:
+            tA = motorAThread()
+            tA.start()
+            tB = motorBThread()
+            tB.start()
+            print("Threads running...")
+    except (KeyboardInterrupt, SystemExit):
+            cleanup()
+            GPIO.cleanup()
+            sys.exit()
+
 
     cleanup()
     GPIO.cleanup()
