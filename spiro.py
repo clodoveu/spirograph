@@ -26,7 +26,7 @@ coilC2pin = 22
 coilD1pin = 5
 coilD2pin = 6
 
-motorDelay = 0.005  # seconds between stepper advancements
+motorDelay = 0.0025 # seconds between stepper advancements
 
 # GPIO SETUP
 GPIO.setup(coilA1pin, GPIO.OUT)
