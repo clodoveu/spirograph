@@ -14,16 +14,13 @@ import time
 
 import RPi.GPIO as GPIO
 
-# SETUP
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
 
-#  stepper motor 1
+#  stepper motor A
 coilA1pin = 4
 coilA2pin = 17
 coilB1pin = 23
 coilB2pin = 24
-#  stepper motor 2
+#  stepper motor B
 coilC1pin = 27
 coilC2pin = 22
 coilD1pin = 5
@@ -32,6 +29,8 @@ coilD2pin = 6
 motorDelay = 0.0025  # seconds between stepper advancements
 
 # GPIO SETUP
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(coilA1pin, GPIO.OUT)
 GPIO.setup(coilA2pin, GPIO.OUT)
 GPIO.setup(coilB1pin, GPIO.OUT)
@@ -189,8 +188,8 @@ def main():
             sys.exit()
 
 
-    cleanup()
-    GPIO.cleanup()
+    #cleanup()
+    #GPIO.cleanup()
 
 
 if __name__ == "__main__":
