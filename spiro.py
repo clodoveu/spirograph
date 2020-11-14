@@ -1,10 +1,10 @@
 #
 # Spiro
-# V2 2018-07-23
+# V1 20201113
 # CADJ
 #
 # Controls two stepper motors 28BYJ-48 under driver ULN2003
-#  to rotate with varying speeds. Motors drive a drawing mechanism
+#  to rotate with varying speeds. Motors drive a pantographic drawing machine
 #
 #
 
@@ -26,7 +26,8 @@ coilC2pin = 22
 coilD1pin = 5
 coilD2pin = 6
 
-motorDelay = 0.0025  # seconds between stepper advancements
+motorDelayA = 0.002  # seconds between stepper advancements
+motorDelayB = 0.007  # seconds between stepper advancements
 
 # GPIO SETUP
 GPIO.setwarnings(False)
@@ -86,7 +87,7 @@ def forwardA():
     STEPA += 1
     if STEPA == stepCount:
         STEPA = 0
-    time.sleep(motorDelay)
+    time.sleep(motorDelayA)
 
 
 def backwardA():
@@ -95,7 +96,7 @@ def backwardA():
     if STEPA < 0:
         STEPA = stepCount - 1
     setStepA(STEPA)
-    time.sleep(motorDelay)
+    time.sleep(motorDelayA)
 
 
 def forwardB():
@@ -104,7 +105,7 @@ def forwardB():
     STEPB += 1
     if STEPB == stepCount:
         STEPB = 0
-    time.sleep(motorDelay)
+    time.sleep(motorDelayB)
 
 
 def backwardB():
@@ -113,7 +114,7 @@ def backwardB():
     if STEPB < 0:
         STEPB = stepCount - 1
     setStepB(STEPB)
-    time.sleep(motorDelay)
+    time.sleep(motorDelayB)
 
 
 def rotateAfw(steps):
@@ -146,7 +147,7 @@ class motorAThread(threading.Thread):
 
     def run(self):
         while True:
-            rotateAfw(10)
+            rotateAfw(7)
 
 
 class motorBThread(threading.Thread):
@@ -160,7 +161,7 @@ class motorBThread(threading.Thread):
 
     def run(self):
         while True:
-            rotateBfw(20)
+            rotateBfw(67)
 
 
 def main():
