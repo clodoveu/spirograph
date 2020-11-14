@@ -27,7 +27,7 @@ coilD1pin = 5
 coilD2pin = 6
 
 motorDelayA = 0.002  # seconds between stepper advancements
-motorDelayB = 0.007  # seconds between stepper advancements
+motorDelayB = 0.005  # seconds between stepper advancements
 
 # GPIO SETUP
 GPIO.setwarnings(False)
@@ -147,7 +147,7 @@ class motorAThread(threading.Thread):
 
     def run(self):
         while True:
-            rotateAfw(7)
+            rotateAfw(13)
 
 
 class motorBThread(threading.Thread):
@@ -161,7 +161,7 @@ class motorBThread(threading.Thread):
 
     def run(self):
         while True:
-            rotateBfw(67)
+            rotateBfw(19)
 
 
 def main():
