@@ -209,7 +209,11 @@ class motorBThread(threading.Thread):
 
 
 def main():
-    # test section while main() is not written
+    # global parameters setting
+    global motorSpeedA
+    global motorSpeedB
+    global B1
+
     # GPIO SETUP
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
@@ -223,10 +227,6 @@ def main():
     GPIO.setup(coilD2pin, GPIO.OUT)
     B1 = gpiozero.Buttons(button1)
 
-    # global parameters setting
-    global motorSpeedA
-    global motorSpeedB
-    global B1
 
     # TODO: full step instead of half step
 
