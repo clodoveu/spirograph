@@ -260,7 +260,7 @@ def main():
     # TODO: full step instead of half step
 
     motorSpeedA = 500 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
-    motorSpeedB = -230 # negative values -> backwards rotation
+    motorSpeedB = -500 # negative values -> backwards rotation
 
     try:
             tA = motorAThread()
