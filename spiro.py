@@ -173,7 +173,6 @@ def statusToggle():
 class motorAThread(threading.Thread):
     """ Sets motor A rotating
     """
-    global B1
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -181,6 +180,7 @@ class motorAThread(threading.Thread):
         print("Initializing motor A")
 
     def run(self):
+        global B1
         while True:
             if motorSpeedA > 0:
                 rotateAfw(20)
@@ -192,7 +192,6 @@ class motorAThread(threading.Thread):
 class motorBThread(threading.Thread):
     """ Sets motor B rotating
     """
-    global B1
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -200,6 +199,7 @@ class motorBThread(threading.Thread):
         print("Initializing motor B")
 
     def run(self):
+        global B1
         while True:
             if motorSpeedA > 0:
                 rotateBfw(20)
