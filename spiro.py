@@ -73,8 +73,8 @@ seqfull.append([0, 1, 1, 0])
 seqfull.append([0, 1, 0, 1])
 seqfull.append([1, 0, 0, 1])
 
-seq = seqfull
-stepCount = stepfullCount
+seq = seqhalf
+stepCount = stephalfCount
 
 STEPA = 0  # global to indicate next step in sequence
 STEPB = 0
