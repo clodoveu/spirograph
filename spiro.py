@@ -13,6 +13,7 @@ import threading
 import time
 
 import RPi.GPIO as GPIO
+from gpiozero import Button
 
 
 #  stepper motor A
@@ -26,8 +27,18 @@ coilC2pin = 22
 coilD1pin = 5
 coilD2pin = 6
 
-motorDelayA = 0.002  # seconds between stepper advancements
-motorDelayB = 0.005  # seconds between stepper advancements
+#  Buttons
+button1 = 12 #  start/pause button
+
+#  Status: run/pause
+RUN = 0
+PAUSE = 1
+status = RUN
+
+#  motorDelayA = 0.002  # seconds between stepper advancements
+#  motorDelayB = 0.005  # seconds between stepper advancements
+motorSpeedA = 500  # 1/speed = delay in seconds between stepper advancements
+motorSpeedB = 500  # use negative values for backwards rotation
 
 # GPIO SETUP
 GPIO.setwarnings(False)
@@ -87,7 +98,7 @@ def forwardA():
     STEPA += 1
     if STEPA == stepCount:
         STEPA = 0
-    time.sleep(motorDelayA)
+    time.sleep(abs(1.0/motorSpeedA))
 
 
 def backwardA():
@@ -96,7 +107,7 @@ def backwardA():
     if STEPA < 0:
         STEPA = stepCount - 1
     setStepA(STEPA)
-    time.sleep(motorDelayA)
+    time.sleep(abs(1.0/motorSpeedA))
 
 
 def forwardB():
@@ -105,7 +116,7 @@ def forwardB():
     STEPB += 1
     if STEPB == stepCount:
         STEPB = 0
-    time.sleep(motorDelayB)
+    time.sleep(abs(1.0/motorSpeedB))
 
 
 def backwardB():
@@ -114,31 +125,54 @@ def backwardB():
     if STEPB < 0:
         STEPB = stepCount - 1
     setStepB(STEPB)
-    time.sleep(motorDelayB)
+    time.sleep(abs(1.0/motorSpeedB))
 
 
 def rotateAfw(steps):
-    for i in range(0, steps):
-        forwardA()
+    global status
+    global RUN
+    if status == RUN:
+        for i in range(0, steps):
+            forwardA()
 
 
 def rotateAbw(steps):
-    for i in range(0, steps):
-        backwardA()
+    global status
+    global RUN
+    if status == RUN:
+        for i in range(0, steps):
+            backwardA()
 
 
 def rotateBfw(steps):
-    for i in range(0, steps):
-        forwardB()
+    global status
+    global RUN
+    if status == RUN:
+        for i in range(0, steps):
+            forwardB()
 
 
 def rotateBbw(steps):
-    for i in range(0, steps):
-        backwardB()
+    global status
+    global RUN
+    if status == RUN:
+        for i in range(0, steps):
+            backwardB()
+
+def statusToggle():
+    global status
+    global RUN
+    global PAUSE
+    if status == RUN:
+        status = PAUSE
+    else:
+        status = RUN
+    time.sleep(1)
 
 class motorAThread(threading.Thread):
     """ Sets motor A rotating
     """
+    global B1
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -147,12 +181,17 @@ class motorAThread(threading.Thread):
 
     def run(self):
         while True:
-            rotateAfw(13)
-
+            if motorSpeedA > 0:
+                rotateAfw(20)
+            else:
+                rotateAbw(20)
+            if B1.is_pressed():
+                statusToggle()
 
 class motorBThread(threading.Thread):
     """ Sets motor B rotating
     """
+    global B1
 
     def __init__(self):
         threading.Thread.__init__(self)
@@ -161,7 +200,12 @@ class motorBThread(threading.Thread):
 
     def run(self):
         while True:
-            rotateBfw(19)
+            if motorSpeedA > 0:
+                rotateBfw(20)
+            else:
+                rotateBbw(20)
+            if B1.is_pressed():
+                statusToggle()
 
 
 def main():
@@ -177,13 +221,17 @@ def main():
     GPIO.setup(coilC2pin, GPIO.OUT)
     GPIO.setup(coilD1pin, GPIO.OUT)
     GPIO.setup(coilD2pin, GPIO.OUT)
+    B1 = gpiozero.Buttons(button1)
 
     # global parameters setting
+    global motorSpeedA
+    global motorSpeedB
+    global B1
 
-    # TODO: button to start/pause
     # TODO: full step instead of half step
-    # TODO: parameters input; negative rotation
-    # TODO: same number of steps, vary only the motor delay (motor speed)
+
+    motorSpeedA = 500 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
+    motorSpeedB = -230 # negative values -> backwards rotation
 
     try:
             tA = motorAThread()
@@ -194,6 +242,7 @@ def main():
     except (KeyboardInterrupt, SystemExit):
             cleanup()
             GPIO.cleanup()
+            B1.close()
             sys.exit()
 
 
