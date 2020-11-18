@@ -54,16 +54,28 @@ GPIO.setup(coilD1pin, GPIO.OUT)
 GPIO.setup(coilD2pin, GPIO.OUT)
 
 # sequencing for half-step
-stepCount = 8
-seq = []
-seq.append([1, 0, 0, 0])
-seq.append([1, 1, 0, 0])
-seq.append([0, 1, 0, 0])
-seq.append([0, 1, 1, 0])
-seq.append([0, 0, 1, 0])
-seq.append([0, 0, 1, 1])
-seq.append([0, 0, 0, 1])
-seq.append([1, 0, 0, 1])
+stephalfCount = 8
+seqhalf = []
+seqhalf.append([1, 0, 0, 0])
+seqhalf.append([1, 1, 0, 0])
+seqhalf.append([0, 1, 0, 0])
+seqhalf.append([0, 1, 1, 0])
+seqhalf.append([0, 0, 1, 0])
+seqhalf.append([0, 0, 1, 1])
+seqhalf.append([0, 0, 0, 1])
+seqhalf.append([1, 0, 0, 1])
+
+# sequencing for full-step
+stepfullCount = 4
+seqfull = []
+seqfull.append([1, 0, 1, 0])
+seqfull.append([0, 1, 1, 0])
+seqfull.append([0, 1, 0, 1])
+seqfull.append([1, 0, 0, 1])
+
+seq = seqfull
+stepCount = stepfullCount
+
 STEPA = 0  # global to indicate next step in sequence
 STEPB = 0
 
