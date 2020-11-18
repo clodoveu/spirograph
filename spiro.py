@@ -181,11 +181,13 @@ class motorAThread(threading.Thread):
 
     def run(self):
         global B1
+        global status
         while True:
-            if motorSpeedA > 0:
-                rotateAfw(20)
-            else:
-                rotateAbw(20)
+            if status == RUN:
+                if motorSpeedA > 0:
+                    rotateAfw(20)
+                else:
+                    rotateAbw(20)
             if B1.is_pressed:
                 statusToggle()
 
@@ -200,13 +202,15 @@ class motorBThread(threading.Thread):
 
     def run(self):
         global B1
+        global status
         while True:
-            if motorSpeedB > 0:
-                rotateBfw(20)
-            else:
-                rotateBbw(20)
-            #  if B1.is_pressed:
-            #      statusToggle()  #
+            if status == RUN:
+                if motorSpeedB > 0:
+                    rotateBfw(20)
+                else:
+                    rotateBbw(20)
+                #  if B1.is_pressed:
+                #      statusToggle()  #
 
 
 def main():
