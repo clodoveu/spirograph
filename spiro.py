@@ -234,6 +234,7 @@ class buttonThread(threading.Thread):
         while True:
             if B1.is_pressed:
                 statusToggle()
+            time.sleep(0.5)
 
 
 def main():
