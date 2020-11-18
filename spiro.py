@@ -178,6 +178,13 @@ def main():
     GPIO.setup(coilD1pin, GPIO.OUT)
     GPIO.setup(coilD2pin, GPIO.OUT)
 
+    # global parameters setting
+
+    # TODO: button to start/pause
+    # TODO: full step instead of half step
+    # TODO: parameters input; negative rotation
+    # TODO: same number of steps, vary only the motor delay (motor speed)
+
     try:
             tA = motorAThread()
             tA.start()
