@@ -201,7 +201,7 @@ class motorBThread(threading.Thread):
     def run(self):
         global B1
         while True:
-            if motorSpeedA > 0:
+            if motorSpeedB > 0:
                 rotateBfw(20)
             else:
                 rotateBbw(20)
