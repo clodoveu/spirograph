@@ -205,8 +205,8 @@ class motorBThread(threading.Thread):
                 rotateBfw(20)
             else:
                 rotateBbw(20)
-            if B1.is_pressed:
-                statusToggle()  #
+            #  if B1.is_pressed:
+            #      statusToggle()  #
 
 
 def main():
