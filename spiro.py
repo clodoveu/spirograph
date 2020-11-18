@@ -180,7 +180,6 @@ class motorAThread(threading.Thread):
         print("Initializing motor A")
 
     def run(self):
-        global B1
         global status
         while True:
             if status == RUN:
@@ -188,8 +187,6 @@ class motorAThread(threading.Thread):
                     rotateAfw(20)
                 else:
                     rotateAbw(20)
-            if B1.is_pressed:
-                statusToggle()
 
 class motorBThread(threading.Thread):
     """ Sets motor B rotating
@@ -201,7 +198,6 @@ class motorBThread(threading.Thread):
         print("Initializing motor B")
 
     def run(self):
-        global B1
         global status
         while True:
             if status == RUN:
@@ -209,8 +205,23 @@ class motorBThread(threading.Thread):
                     rotateBfw(20)
                 else:
                     rotateBbw(20)
-                #  if B1.is_pressed:
-                #      statusToggle()  #
+
+
+class buttonThread(threading.Thread):
+    """ Controls run/pause status
+    """
+
+    def __init(self):
+        threading.Thread.__init__(self)
+        GPIO.setmode(GPIO.BCM)
+        print("Initializing button")
+
+    def run(self):
+        global B1
+        global status
+        while True:
+            if B1.is_pressed:
+                statusToggle()
 
 
 def main():
@@ -243,6 +254,8 @@ def main():
             tA.start()
             tB = motorBThread()
             tB.start()
+            tC = buttonThread()
+            tC.start()
             print("Threads running...")
     except (KeyboardInterrupt, SystemExit):
             cleanup()
