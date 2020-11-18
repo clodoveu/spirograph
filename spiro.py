@@ -225,7 +225,7 @@ def main():
     GPIO.setup(coilC2pin, GPIO.OUT)
     GPIO.setup(coilD1pin, GPIO.OUT)
     GPIO.setup(coilD2pin, GPIO.OUT)
-    B1 = gpiozero.Buttons(button1)
+    B1 = Buttons(button1)
 
 
     # TODO: full step instead of half step
