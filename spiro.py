@@ -89,15 +89,15 @@ def motorSpeedFunctionA():
     """
     global motorSpeedA
     global deltaMotorSpeedA
-    motorSpeedA += deltaMotorSpeedA
-    if motorSpeedA >= 500:
-        motorSpeedA = 500 - deltaMotorSpeedA
-        deltaMotorSpeedA = -deltaMotorSpeedA
-    if motorSpeedA <= -500:
-        motorSpeedA = -500 - deltaMotorSpeedA
-        deltaMotorSpeedA = -deltaMotorSpeedA
-    if motorSpeedA == 0:
-        motorSpeedA += deltaMotorSpeedA
+    #motorSpeedA += deltaMotorSpeedA
+    #f motorSpeedA >= 500:
+    #    motorSpeedA = 500 - deltaMotorSpeedA
+    #    deltaMotorSpeedA = -deltaMotorSpeedA
+    #if motorSpeedA <= -500:
+    #    motorSpeedA = -500 - deltaMotorSpeedA
+    #    deltaMotorSpeedA = -deltaMotorSpeedA
+    #if motorSpeedA == 0:
+    #    motorSpeedA += deltaMotorSpeedA
     return motorSpeedA
 
 def motorSpeedFunctionB():
@@ -298,8 +298,8 @@ def main():
 
     # TODO: full step instead of half step
 
-    motorSpeedA = 230 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
-    motorSpeedB = 470 # negative values -> backwards rotation
+    motorSpeedA = 50 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
+    motorSpeedB = 490 # negative values -> backwards rotation
 
     try:
             tA = motorAThread()
