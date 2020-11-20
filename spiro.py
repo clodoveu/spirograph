@@ -40,6 +40,8 @@ status = RUN
 #  motorDelayB = 0.005  # seconds between stepper advancements
 motorSpeedA = 500  # 1/speed = delay in seconds between stepper advancements
 motorSpeedB = 500  # use negative values for backwards rotation
+deltaMotorSpeedA = 5
+deltaMotorSpeedB = 5
 
 # GPIO SETUP
 GPIO.setwarnings(False)
@@ -79,6 +81,40 @@ stepCount = stephalfCount
 STEPA = 0  # global to indicate next step in sequence
 STEPB = 0
 
+def motorSpeedFunctionA():
+    """ Function to determine the motor's speed
+        Values: from 50 to 500
+        Speed is used to determine the time pause between steps of the motor, 1/speed = pause in seconds
+        The smallest pause acceptable is 2ms, hence 500 is the top speed
+    """
+    global motorSpeedA
+    global deltaMotorSpeedA
+    motorSpeedA += deltaMotorSpeedA
+    if motorSpeedA >= 500:
+        motorSpeedA = 500 - deltaMotorSpeedA
+        deltaMotorSpeedA = -deltaMotorSpeedA
+    if motorSpeedA <= 50:
+        motorSpeedA = 50 - deltaMotorSpeedA
+        deltaMotorSpeedA = -deltaMotorSpeedA
+    return motorSpeedA
+
+def motorSpeedFunctionB():
+    """ Function to determine the motor's speed
+        Values: from 50 to 500
+        Speed is used to determine the time pause between steps of the motor, 1/speed = pause in seconds
+        The smallest pause acceptable is 2ms, hence 500 is the top speed
+    """
+    global motorSpeedB
+    global deltaMotorSpeedB
+    motorSpeedB += deltaMotorSpeedB
+    if motorSpeedB >= 500:
+        motorSpeedB = 500 - deltaMotorSpeedB
+        deltaMotorSpeedB = -deltaMotorSpeedB
+    if motorSpeedB <= 50:
+        motorSpeedB = 50 - deltaMotorSpeedB
+        deltaMotorSpeedB = -deltaMotorSpeedB
+    return motorSpeedB
+
 
 def cleanup():
     GPIO.output(coilA1pin, False)
@@ -111,7 +147,7 @@ def forwardA():
     STEPA += 1
     if STEPA == stepCount:
         STEPA = 0
-    time.sleep(abs(1.0/motorSpeedA))
+    time.sleep(abs(1.0/motorSpeedFunctionA()))
 
 
 def backwardA():
@@ -120,7 +156,7 @@ def backwardA():
     if STEPA < 0:
         STEPA = stepCount - 1
     setStepA(STEPA)
-    time.sleep(abs(1.0/motorSpeedA))
+    time.sleep(abs(1.0/motorSpeedFunctionA()))
 
 
 def forwardB():
@@ -129,7 +165,7 @@ def forwardB():
     STEPB += 1
     if STEPB == stepCount:
         STEPB = 0
-    time.sleep(abs(1.0/motorSpeedB))
+    time.sleep(abs(1.0/motorSpeedBFunctionB()))
 
 
 def backwardB():
@@ -138,7 +174,7 @@ def backwardB():
     if STEPB < 0:
         STEPB = stepCount - 1
     setStepB(STEPB)
-    time.sleep(abs(1.0/motorSpeedB))
+    time.sleep(abs(1.0/motorSpeedBFunctionB()))
 
 
 def rotateAfw(steps):
