@@ -93,9 +93,10 @@ def motorSpeedFunctionA():
     if motorSpeedA >= 500:
         motorSpeedA = 500 - deltaMotorSpeedA
         deltaMotorSpeedA = -deltaMotorSpeedA
-    if motorSpeedA <= 50:
-        motorSpeedA = 50 - deltaMotorSpeedA
+    if motorSpeedA <= -500:
+        motorSpeedA = -500 - deltaMotorSpeedA
         deltaMotorSpeedA = -deltaMotorSpeedA
+
     return motorSpeedA
 
 def motorSpeedFunctionB():
@@ -106,13 +107,14 @@ def motorSpeedFunctionB():
     """
     global motorSpeedB
     global deltaMotorSpeedB
-    motorSpeedB += deltaMotorSpeedB
-    if motorSpeedB >= 500:
-        motorSpeedB = 500 - deltaMotorSpeedB
-        deltaMotorSpeedB = -deltaMotorSpeedB
-    if motorSpeedB <= 50:
-        motorSpeedB = 50 - deltaMotorSpeedB
-        deltaMotorSpeedB = -deltaMotorSpeedB
+    # motorSpeedB += deltaMotorSpeedB
+    #if motorSpeedB >= 500:
+    #    motorSpeedB = 500 - deltaMotorSpeedB
+    #    deltaMotorSpeedB = -deltaMotorSpeedB
+    #if motorSpeedB <= 50:
+    #    motorSpeedB = 50 - deltaMotorSpeedB
+    #    deltaMotorSpeedB = -deltaMotorSpeedB
+
     return motorSpeedB
 
 
