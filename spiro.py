@@ -165,7 +165,7 @@ def forwardB():
     STEPB += 1
     if STEPB == stepCount:
         STEPB = 0
-    time.sleep(abs(1.0/motorSpeedBFunctionB()))
+    time.sleep(abs(1.0/motorSpeedFunctionB()))
 
 
 def backwardB():
@@ -174,7 +174,7 @@ def backwardB():
     if STEPB < 0:
         STEPB = stepCount - 1
     setStepB(STEPB)
-    time.sleep(abs(1.0/motorSpeedBFunctionB()))
+    time.sleep(abs(1.0/motorSpeedFunctionB()))
 
 
 def rotateAfw(steps):
