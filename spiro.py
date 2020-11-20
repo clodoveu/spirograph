@@ -40,7 +40,7 @@ status = RUN
 #  motorDelayB = 0.005  # seconds between stepper advancements
 motorSpeedA = 500  # 1/speed = delay in seconds between stepper advancements
 motorSpeedB = 500  # use negative values for backwards rotation
-deltaMotorSpeedA = 5
+deltaMotorSpeedA = 0.05
 deltaMotorSpeedB = 5
 
 # GPIO SETUP
