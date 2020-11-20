@@ -96,7 +96,8 @@ def motorSpeedFunctionA():
     if motorSpeedA <= -500:
         motorSpeedA = -500 - deltaMotorSpeedA
         deltaMotorSpeedA = -deltaMotorSpeedA
-
+    if motorSpeedA == 0:
+        motorSpeedA += deltaMotorSpeedA
     return motorSpeedA
 
 def motorSpeedFunctionB():
