@@ -23,15 +23,15 @@ coilA2pin = 17
 coilB1pin = 23
 coilB2pin = 24
 #  stepper motor B
-coilC1pin = 27
-coilC2pin = 22
-coilD1pin = 5
-coilD2pin = 6
-#  stepper motor B
-coilE1pin = 13
-coilE2pin = 19
-coilF1pin = 16
-coilF2pin = 20
+coilC1pin = 13
+coilC2pin = 19
+coilD1pin = 16
+coilD2pin = 20
+#  stepper motor C
+coilE1pin = 27
+coilE2pin = 22
+coilF1pin = 5
+coilF2pin = 6
 
 #  Buttons
 button1 = 12 #  start/pause button
