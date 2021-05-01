@@ -27,6 +27,11 @@ coilC1pin = 27
 coilC2pin = 22
 coilD1pin = 5
 coilD2pin = 6
+#  stepper motor B
+coilE1pin = 13
+coilE2pin = 19
+coilF1pin = 16
+coilF2pin = 20
 
 #  Buttons
 button1 = 12 #  start/pause button
@@ -40,8 +45,10 @@ status = RUN
 #  motorDelayB = 0.005  # seconds between stepper advancements
 motorSpeedA = 500  # 1/speed = delay in seconds between stepper advancements
 motorSpeedB = 500  # use negative values for backwards rotation
+motorSpeedC = 500  # use negative values for backwards rotation
 deltaMotorSpeedA = 0.05
 deltaMotorSpeedB = 5
+deltaMotorSpeedB = 0.05
 
 # GPIO SETUP
 GPIO.setwarnings(False)
@@ -54,6 +61,10 @@ GPIO.setup(coilC1pin, GPIO.OUT)
 GPIO.setup(coilC2pin, GPIO.OUT)
 GPIO.setup(coilD1pin, GPIO.OUT)
 GPIO.setup(coilD2pin, GPIO.OUT)
+GPIO.setup(coilE1pin, GPIO.OUT)
+GPIO.setup(coilE2pin, GPIO.OUT)
+GPIO.setup(coilF1pin, GPIO.OUT)
+GPIO.setup(coilF2pin, GPIO.OUT)
 
 # sequencing for half-step
 stephalfCount = 8
@@ -80,6 +91,7 @@ stepCount = stephalfCount
 
 STEPA = 0  # global to indicate next step in sequence
 STEPB = 0
+STEPC = 0
 
 def motorSpeedFunctionA():
     """ Function to determine the motor's speed
@@ -118,6 +130,24 @@ def motorSpeedFunctionB():
 
     return motorSpeedB
 
+def motorSpeedFunctionC():
+    """ Function to determine the motor's speed
+        Values: from 50 to 500
+        Speed is used to determine the time pause between steps of the motor, 1/speed = pause in seconds
+        The smallest pause acceptable is 2ms, hence 500 is the top speed
+    """
+    global motorSpeedC
+    global deltaMotorSpeedC
+    # motorSpeedB += deltaMotorSpeedB
+    #if motorSpeedB >= 500:
+    #    motorSpeedB = 500 - deltaMotorSpeedB
+    #    deltaMotorSpeedB = -deltaMotorSpeedB
+    #if motorSpeedB <= 50:
+    #    motorSpeedB = 50 - deltaMotorSpeedB
+    #    deltaMotorSpeedB = -deltaMotorSpeedB
+
+    return motorSpeedC
+
 
 def cleanup():
     GPIO.output(coilA1pin, False)
@@ -128,7 +158,10 @@ def cleanup():
     GPIO.output(coilC2pin, False)
     GPIO.output(coilD1pin, False)
     GPIO.output(coilD2pin, False)
-
+    GPIO.output(coilE1pin, False)
+    GPIO.output(coilE2pin, False)
+    GPIO.output(coilF1pin, False)
+    GPIO.output(coilF2pin, False)
 
 def setStepA(s):
     GPIO.output(coilA1pin, seq[s][0])
@@ -142,6 +175,13 @@ def setStepB(s):
     GPIO.output(coilC2pin, seq[s][1])
     GPIO.output(coilD1pin, seq[s][2])
     GPIO.output(coilD2pin, seq[s][3])
+
+
+def setStepC(s):
+    GPIO.output(coilE1pin, seq[s][0])
+    GPIO.output(coilE2pin, seq[s][1])
+    GPIO.output(coilF1pin, seq[s][2])
+    GPIO.output(coilF2pin, seq[s][3])
 
 
 def forwardA():
@@ -179,6 +219,23 @@ def backwardB():
     setStepB(STEPB)
     time.sleep(abs(1.0/motorSpeedFunctionB()))
 
+def forwardC():
+    global STEPC
+    setStepB(STEPC)
+    STEPC += 1
+    if STEPC == stepCount:
+        STEPC = 0
+    time.sleep(abs(1.0/motorSpeedFunctionC()))
+
+
+def backwardC():
+    global STEPC
+    STEPC -= 1
+    if STEPC < 0:
+        STEPC = stepCount - 1
+    setStepC(STEPB)
+    time.sleep(abs(1.0/motorSpeedFunctionC()))
+
 
 def rotateAfw(steps):
     global status
@@ -210,6 +267,22 @@ def rotateBbw(steps):
     if status == RUN:
         for i in range(0, steps):
             backwardB()
+
+def rotateCfw(steps):
+    global status
+    global RUN
+    if status == RUN:
+        for i in range(0, steps):
+            forwardC()
+
+
+def rotateCbw(steps):
+    global status
+    global RUN
+    if status == RUN:
+        for i in range(0, steps):
+            backwardC()
+
 
 def statusToggle():
     global status
@@ -257,6 +330,24 @@ class motorBThread(threading.Thread):
                 else:
                     rotateBbw(20)
 
+class motorCThread(threading.Thread):
+    """ Sets motor C rotating
+    """
+
+    def __init__(self):
+        threading.Thread.__init__(self)
+        GPIO.setmode(GPIO.BCM)
+        print("Initializing motor C")
+
+    def run(self):
+        global status
+        while True:
+            if status == RUN:
+                if motorSpeedC > 0:
+                    rotateCfw(20)
+                else:
+                    rotateCbw(20)
+
 
 class buttonThread(threading.Thread):
     """ Controls run/pause status
@@ -280,6 +371,7 @@ def main():
     # global parameters setting
     global motorSpeedA
     global motorSpeedB
+    global motorSpeedC
     global B1
 
     # GPIO SETUP
@@ -293,6 +385,10 @@ def main():
     GPIO.setup(coilC2pin, GPIO.OUT)
     GPIO.setup(coilD1pin, GPIO.OUT)
     GPIO.setup(coilD2pin, GPIO.OUT)
+    GPIO.setup(coilE1pin, GPIO.OUT)
+    GPIO.setup(coilE2pin, GPIO.OUT)
+    GPIO.setup(coilF1pin, GPIO.OUT)
+    GPIO.setup(coilF2pin, GPIO.OUT)
     B1 = gpiozero.Button(button1)
 
 
@@ -300,14 +396,17 @@ def main():
 
     motorSpeedA = 50 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
     motorSpeedB = 490 # negative values -> backwards rotation
+    motorSpeedC = 500
 
     try:
             tA = motorAThread()
             tA.start()
             tB = motorBThread()
             tB.start()
-            tC = buttonThread()
+            tC - motorCThread()
             tC.start()
+            tD = buttonThread()
+            tD.start()
             print("Threads running...")
     except (KeyboardInterrupt, SystemExit):
             cleanup()
