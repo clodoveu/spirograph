@@ -403,7 +403,7 @@ def main():
             tA.start()
             tB = motorBThread()
             tB.start()
-            tC - motorCThread()
+            tC = motorCThread()
             tC.start()
             tD = buttonThread()
             tD.start()
