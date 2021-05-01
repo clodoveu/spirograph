@@ -394,7 +394,7 @@ def main():
 
     # TODO: full step instead of half step
 
-    motorSpeedA = 50 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
+    motorSpeedA = 500 # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
     motorSpeedB = 490 # negative values -> backwards rotation
     motorSpeedC = 500
 
