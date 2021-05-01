@@ -48,7 +48,7 @@ motorSpeedB = 500  # use negative values for backwards rotation
 motorSpeedC = 500  # use negative values for backwards rotation
 deltaMotorSpeedA = 0.05
 deltaMotorSpeedB = 5
-deltaMotorSpeedB = 0.05
+deltaMotorSpeedC = 0.05
 
 # GPIO SETUP
 GPIO.setwarnings(False)
