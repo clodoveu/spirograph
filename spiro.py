@@ -221,7 +221,7 @@ def backwardB():
 
 def forwardC():
     global STEPC
-    setStepB(STEPC)
+    setStepC(STEPC)
     STEPC += 1
     if STEPC == stepCount:
         STEPC = 0
