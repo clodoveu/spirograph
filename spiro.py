@@ -43,8 +43,8 @@ status = RUN
 
 #  motorDelayA = 0.002  # seconds between stepper advancements
 #  motorDelayB = 0.005  # seconds between stepper advancements
-motorSpeedA = 500  # 1/speed = delay in seconds between stepper advancements
-motorSpeedB = 200  # use negative values for backwards rotation
+motorSpeedA = 100  # 1/speed = delay in seconds between stepper advancements
+motorSpeedB = 500  # use negative values for backwards rotation
 motorSpeedC = 500  # use negative values for backwards rotation
 deltaMotorSpeedA = 5
 deltaMotorSpeedB = 5
