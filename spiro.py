@@ -383,9 +383,9 @@ def main():
     ap.add_argument("-c", "--MotorC", required=True, help="Motor C (platter) speed (100-1000), negative for reverse spin")
     args = vars(ap.parse_args())
 
-    motorSpeedA = int(args('MotorA'))
-    motorSpeedB = int(args('MotorB'))
-    motorSpeedC = int(args('MotorC'))
+    motorSpeedA = int(args['MotorA'])
+    motorSpeedB = int(args['MotorB'])
+    motorSpeedC = int(args['MotorC'])
 
     # GPIO SETUP
     GPIO.setwarnings(False)
