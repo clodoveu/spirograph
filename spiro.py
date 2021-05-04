@@ -8,12 +8,14 @@
 #
 #
 
+import argparse
 import sys
 import threading
 import time
 
 import RPi.GPIO as GPIO
 import gpiozero
+
 #  from gpiozero import Button
 
 
@@ -374,6 +376,17 @@ def main():
     global motorSpeedC
     global B1
 
+    # Command line parameters
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-a", "--MotorA", required=True, help="Motor A (left) speed (100-1000), negative for reverse spin")
+    ap.add_argument("-b", "--MotorB", required=True, help="Motor B (right) speed (100-1000), negative for reverse spin")
+    ap.add_argument("-c", "--MotorC", required=True, help="Motor C (platter) speed (100-1000), negative for reverse spin")
+    args = vars(ap.parse_args())
+
+    motorSpeedA = int(args('MotorA'))
+    motorSpeedB = int(args('MotorB'))
+    motorSpeedC = int(args('MotorC'))
+
     # GPIO SETUP
     GPIO.setwarnings(False)
     GPIO.setmode(GPIO.BCM)
@@ -394,9 +407,9 @@ def main():
 
     # TODO: full step instead of half step
 
-    motorSpeedA = 270  # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
-    motorSpeedB = -500 # negative values -> backwards rotation
-    motorSpeedC = 400
+    # motorSpeedA = 270  # 1/motorSpeed = motorDelay; 500 -> 0.002, 2ms
+    # motorSpeedB = -500 # negative values -> backwards rotation
+    # motorSpeedC = 400
 
     try:
             tA = motorAThread()
