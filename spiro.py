@@ -303,7 +303,7 @@ class motorAThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         GPIO.setmode(GPIO.BCM)
-        print("Initializing motor A:".format(motorSpeedA))
+        print("Initializing motor A: {}".format(motorSpeedA))
 
     def run(self):
         global status
@@ -321,7 +321,7 @@ class motorBThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         GPIO.setmode(GPIO.BCM)
-        print("Initializing motor B:".format(motorSpeedB))
+        print("Initializing motor B: {}".format(motorSpeedB))
 
     def run(self):
         global status
@@ -339,7 +339,7 @@ class motorCThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         GPIO.setmode(GPIO.BCM)
-        print("Initializing motor C:".format(motorSpeedC))
+        print("Initializing motor C: {}".format(motorSpeedC))
 
     def run(self):
         global status
